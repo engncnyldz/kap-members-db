@@ -29,7 +29,7 @@ logger.setLevel(logging.DEBUG)
 
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
-file_handler = TimedRotatingFileHandler("app.log", when="midnight",backupCount=30)
+file_handler = TimedRotatingFileHandler("./logs/app.log", when="midnight",backupCount=30)
 file_handler.setFormatter(formatter)
 file_handler.setLevel(settings.log_level)
 
