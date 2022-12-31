@@ -17,8 +17,7 @@ def query_members():
             r = client.get(url= members_url, follow_redirects=True)
 
         members_returned = json.loads(r.text)
-    
-    
+
         for member in members_returned:
 
             memberOrm = MemberOrm(
@@ -30,17 +29,23 @@ def query_members():
             )
         
             members.append(memberOrm)
-    except:
+    except:       
         logger.error("Error occured while fetching KAP members")
     return members
 
 
 def insert_or_update_members(members=List[MemberOrm]):
-    session = SessionLocal()
+    
     result = InsertUpdateResult(
         inserted=0,
         updated=0
     )
+
+    if(len(members) < 1):
+        logger.warn("nothing to insert/update")
+        return result
+
+    session = SessionLocal()
 
     for member in members:
         member_query = session.query(MemberOrm).filter(MemberOrm.stock_code == member.stock_code)

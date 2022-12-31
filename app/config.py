@@ -35,7 +35,7 @@ file_handler.setLevel(settings.log_level)
 
 stream_handler = logging.StreamHandler()
 stream_handler.setFormatter(formatter)
-stream_handler.setLevel(logging.ERROR)
+stream_handler.setLevel(logging.WARN)
 
 logger.addHandler(file_handler)
 logger.addHandler(stream_handler)
