@@ -2,7 +2,7 @@ version: '3'
 
 services:
   app:
-    image: engincan/kap-members-db:1.0
+    image: engincan/kap-members-db:latest
     depends_on:
       - db
     ports:
