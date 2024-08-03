@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kap-members-db
+  namespace: app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kap-members-db
+  template:
+    metadata:
+      labels:
+        app: kap-members-db
+    spec:
+      containers:
+      - name: kap-members-db
+        image: engincan/kap-members-db:latest
+        ports:
+        - containerPort: 3001
+        env:
+        - name: DATABASE_HOSTNAME
+          valueFrom:
+            configMapKeyRef:
+              name: kap-members-db-config
+              key: DATABASE_HOSTNAME
+        - name: DATABASE_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: kap-members-db-config
+              key: DATABASE_PORT       
+        - name: DATABASE_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: kap-members-db-config
+              key: DATABASE_NAME  
+        - name: DATABASE_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: kap-members-db-config
+              key: DATABASE_USERNAME  
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: kap-members-db-config
+              key: DATABASE_PASSWORD        
+        - name: LOG_LEVEL
+          valueFrom:
+            configMapKeyRef:
+              name: kap-members-db-config
+              key: LOG_LEVEL                                    
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kap-members-db
+  namespace: app
+spec:
+  type: ClusterIP
+  ports:
+  - port: 5001
+    targetPort: 3001
+    protocol: TCP
+  selector:
+    app: kap-members-db
